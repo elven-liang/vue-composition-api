@@ -5,19 +5,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from '@vue/composition-api';
+import { defineComponent, PropType } from '@vue/composition-api';
 import {Todo} from '@/views/Home.vue'; 
 import { v4 as uuidv4 } from 'uuid';
 interface State {
-  message: string;
+   title: string;
+}
+
+interface PropsOption {
+   inputTodo: (todo: Todo) => void;
 }
 
 export default  defineComponent({
    props: {
-      inputTodo:  {
-        type: Function,   // 类型推导
-        required: true
-    },
+      inputTodo: {
+           type: (null as any) as PropType<PropsOption>,
+           required: true
+        },
    },
    setup(props) {
     
@@ -32,7 +36,8 @@ export default  defineComponent({
            status: false,
            createAt: (new Date()).toTimeString()
         }
-        
+        console.log(props);
+
         props.inputTodo(todo)
         
      }
