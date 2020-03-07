@@ -1,14 +1,14 @@
 <template>
   <div class="home">
     <InputTodo :inputTodo="inputTodo" />
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Lists :todos="todos" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from '@vue/composition-api';
-import HelloWorld from '@/components/HelloWorld.vue';
 import InputTodo from '@/components/InputTodo.vue'
+import Lists from '@/components/Lists.vue'
 
 interface TodoState {
    todos: Todo[];
@@ -28,22 +28,22 @@ export default defineComponent({
          todos: []
      });
      const inputTodo = (todo: Todo) => {
-        console.log(todo)
         todoState.todos.push(todo);
      }
      return {
-        inputTodo
+        inputTodo,
+        todos: todoState.todos
      }
   },
   components: {
-    HelloWorld,
-    InputTodo
+    InputTodo,
+    Lists
  }
 })
 </script>
 <style>
     .home {
-       width: 350px;
+       width: 650px;
        height: 600px;
        margin: 200px auto;
     }

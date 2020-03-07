@@ -5,27 +5,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@vue/composition-api';
+import { defineComponent, PropType, reactive } from '@vue/composition-api';
 import {Todo} from '@/views/Home.vue'; 
 import { v4 as uuidv4 } from 'uuid';
-interface State {
-   title: string;
+import moment from 'moment';
+type State = {
+    test: string;
 }
 
-interface PropsOption {
-   inputTodo: (todo: Todo) => void;
+interface InputTodo {
+   (todo: Todo): unknown;
 }
 
-export default  defineComponent({
-   props: {
-      inputTodo: {
-           type: (null as any) as PropType<PropsOption>,
-           required: true
-        },
-   },
-   setup(props) {
-    
-     const onBlur = (event: FocusEvent) => {
+ const onBlur = (inputTodo: InputTodo, event: FocusEvent): unknown => {
         const value = (event.target as any).value;
         if (value === null || value === '') {
           return false;
@@ -34,15 +26,27 @@ export default  defineComponent({
            id: uuidv4(),
            title: value,
            status: false,
-           createAt: (new Date()).toTimeString()
+           createAt: moment().format('YYYY-MM-DD HH:mm:ss')
         }
-        console.log(props);
-
-        props.inputTodo(todo)
-        
-     }
+       
+        inputTodo(todo)    
+}
+export default  defineComponent({
+   props: {
+      inputTodo: {
+           type: (null as any) as PropType<InputTodo>,
+           required: true
+        },
+   },
+  
+   setup(props) {
+     const state = reactive<State>({
+         test: "fsdfsdf"
+     });
+     
     return {
-      onBlur
+      onBlur: onBlur.bind(undefined, props.inputTodo),
+      state
     }
    }
 });
