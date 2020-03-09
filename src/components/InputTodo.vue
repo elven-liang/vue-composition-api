@@ -9,6 +9,7 @@ import { defineComponent, PropType, reactive } from '@vue/composition-api';
 import {Todo} from '@/views/Home.vue'; 
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import {assert} from '@/cores/util'
 type State = {
     test: string;
 }
@@ -17,11 +18,9 @@ interface InputTodo {
    (todo: Todo): unknown;
 }
 
- const onBlur = (inputTodo: InputTodo, event: FocusEvent): unknown => {
+ const onBlur = (inputTodo: InputTodo, event: FocusEvent): void => {
         const value = (event.target as any).value;
-        if (value === null || value === '') {
-          return false;
-        }
+        assert(value, 'titie cannot empty');
         const todo: Todo = {
            id: uuidv4(),
            title: value,
@@ -29,7 +28,7 @@ interface InputTodo {
            createAt: moment().format('YYYY-MM-DD HH:mm:ss')
         }
        
-        inputTodo(todo)    
+    inputTodo(todo)    
 }
 export default  defineComponent({
    props: {

@@ -1,14 +1,16 @@
 <template>
   <div class="home">
-    <InputTodo :inputTodo="inputTodo" />
-    <Lists :todos="todos" />
+    <InputTodo :inputTodo="inputTodo" v-if="false" />
+    <Lists :todos="todos" v-if="false" />
+    <FormComponent/>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from '@vue/composition-api';
 import InputTodo from '@/components/InputTodo.vue'
-import Lists from '@/components/Lists.vue'
+import Lists from '@/components/Lists.vue';
+import FormComponent from '@/views/Form.vue';
 
 interface TodoState {
    todos: Todo[];
@@ -37,7 +39,8 @@ export default defineComponent({
   },
   components: {
     InputTodo,
-    Lists
+    Lists,
+    FormComponent
  }
 })
 </script>
